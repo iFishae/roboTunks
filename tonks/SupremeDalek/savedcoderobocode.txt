@@ -1,0 +1,19 @@
+		while(true) {
+		ahead(half);
+		scan();
+		turnGunRight(90);
+		turnGunLeft(90);
+		back(half);
+		turnGunLeft(90);
+		scan();
+		turnGunRight(90);
+		}
+
+	public void onHitRobot(HitRobotEvent e) {
+			if (e.getBearing() > -90 && e.getBearing() < 90) {
+			back(100);
+		}
+		else {
+			ahead(100);
+		}
+	}
