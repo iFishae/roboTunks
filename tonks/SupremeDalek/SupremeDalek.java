@@ -1,4 +1,4 @@
-package DernnsBots;
+package Dernn;
 import robocode.*;
 import java.awt.Color;
 
@@ -9,8 +9,9 @@ public class SupremeDalek extends Robot {
 	boolean imaboolean;
 	boolean peek;
 	double moveAmount;
-	int safe = 0; // How many times bot has been hit by a bullet
 	int tsbh = 0; // Turns since bullet hit
+	
+	double half = 0;
 	
 
 
@@ -22,52 +23,68 @@ public class SupremeDalek extends Robot {
 		setScanColor(new Color(217,213,210));
 		
 		moveAmount = Math.max(getBattleFieldWidth(), getBattleFieldHeight());
+		half = moveAmount/2;
 		peek = false;
-		imaboolean = false;
 
 		turnLeft(getHeading() % 90);
 		ahead(moveAmount);
 		peek = true;
 		turnRight(90);
 		turnGunRight(90);
+		back(moveAmount);
 
 		
 		while(true) {
-		ahead(moveAmount);
-		imaboolean = true;
+		ahead(half);
 		turnGunRight(90);
 		scan();
-		safe++;
+		turnGunLeft(180);
+		scan();
+		turnGunRight(90);
+		scan();
+		ahead(half);
+		turnGunRight(90);
+		scan();
 		turnGunLeft(90);
-		imaboolean = false;
-		back(moveAmount);
-		imaboolean = true;
+		// Second Half/Moving back to the other side of the map.
+		back(half);
 		turnGunLeft(90);
 		scan();
-		imaboolean = false;
+		turnGunRight(180);
+		scan();
+		turnGunLeft(90);
+		scan();
+		back(half);
+		turnGunLeft(90);
+		scan();
+		turnGunRight(90);
+		scan();
+		
 		}
 	}
 	
 	public void onScannedRobot(ScannedRobotEvent e) {
-		fire(2);
-		scan();
-	}
+		 if (e.getDistance() < 100.0) {
+            fire(3.0);
+        }
+        else {
+            fire(3.0);
+        }
+        if (peek) {
+           scan();
+        }
+    }
 	
-
 		
-	public void onHitRobot(HitRobotEvent e) {
-			if (e.getBearing() > -90 && e.getBearing() < 90) {
-			back(100);
-		}
-		else {
-			ahead(100);
-		}
-	}
 
 	public void onHitByBullet(HitByBulletEvent e) {
-		if (safe > 4) {
-			ahead(100);
-		}
+		turnGunRight(90);
+		scan();
+		turnGun(180);
+		scan();
+		//if (e.getBearing > ) {
+			
+		//}
 	}
 
 } // "AAAAAAAAAAAAAAAAAAHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH" - Deryn (2022: Trying to defeat Walls)
