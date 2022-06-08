@@ -64,8 +64,8 @@ public class SupremeDalek extends Robot {
 	}
 	
 	public void onScannedRobot(ScannedRobotEvent e) {
-		 if (e.getDistance() < 100.0) {
-            fire(3.0);
+		 if (e.getDistance() > 200.0) {
+            fire(2.0);
         }
         else {
             fire(3.0);
@@ -78,9 +78,6 @@ public class SupremeDalek extends Robot {
 		
 
 	public void onHitByBullet(HitByBulletEvent e) {
-		turnGunRight(90);
-		scan();
-		turnGun(180);
 		scan();
 		//if (e.getBearing > ) {
 			
