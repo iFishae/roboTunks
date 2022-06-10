@@ -25,8 +25,10 @@ public class HippityHoppityUrLifeIsMyProperty extends Robot
 		
 		while(true) {
 		ahead(moveAmount);
+		turnLeft(180);
 		scan();
 		back(moveAmount);
+		turnRight(180);
 		}
 	}
 	
