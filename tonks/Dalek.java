@@ -3,15 +3,15 @@ package Dernn2;
 import robocode.*;
 import java.awt.Color;
 
-public class SupremeDalek extends Robot {
+public class Dalek extends Robot {
     final double WALL_MARGIN = 18;
 
     public void run() {
-        setBodyColor(new Color(129, 30, 42));
-        setGunColor(new Color(215, 215, 217));
-        setRadarColor(new Color(217, 213, 210));
-        setBulletColor(new Color(173, 212, 254));
-        setScanColor(new Color(217, 213, 210));
+        setBodyColor(new Color(100, 87, 80));
+        setGunColor(new Color(213, 207, 204));
+        setRadarColor(new Color(181, 184, 228));
+        setBulletColor(new Color(139,184,249));
+        setScanColor(new Color(139,184,249));
 
         while (true) {
             turnRadarRight(360); // Continuously scan the entire arena
@@ -19,9 +19,9 @@ public class SupremeDalek extends Robot {
     }
 
     public void onScannedRobot(ScannedRobotEvent event) {
-        double distance = event.getDistance();
-        double firePower = Math.max(2, Math.min(400 / distance, 3)); // Default firepower logic
+        double firePower = Math.max(2, Math.min(400 / event.getDistance(), 3)); // Adjust firepower to be at least level 2
         double bulletSpeed = 20 - 3 * firePower;
+        double distance = event.getDistance();
 
         // Initial predicted future position
         double futureX = getX() + distance * Math.sin(Math.toRadians(getHeading() + event.getBearing()));
@@ -54,11 +54,10 @@ public class SupremeDalek extends Robot {
         // Turn gun towards the predicted position
         turnGunRight(bearingFromGun);
 
-        // Fire level 3 bullets only if the gun is almost aligned with the target and distance is within a reasonable range
-        if (Math.abs(bearingFromGun) <= 2 && distance < 300) {
-            fire(3); // Use level 3 bullet
-        } else if (Math.abs(bearingFromGun) <= 5) {
-            fire(firePower); // Use default firepower
+        // Fire only if the gun is almost aligned with the target
+        if (Math.abs(bearingFromGun) <= 2) {
+            fire(firePower);
+            ahead(5);
         }
     }
 
